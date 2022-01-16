@@ -21,6 +21,7 @@ export class RegisterTicketCategory extends Command {
             name: 'categoryid',
             type: 'STRING',
             description: 'Category ID',
+            required: true,
           },
         ],
       },
@@ -33,9 +34,7 @@ export class RegisterTicketCategory extends Command {
   public async chatInputRun(interaction: CommandInteraction) {
     if (!interaction.inGuild()) return
     await interaction.deferReply()
-
-    const categoryId = interaction.options.get('categoryId')
-    console.log(categoryId)
+    const categoryId = interaction.options.get('categoryid')
     if (!categoryId?.value) return interaction.editReply("You didn't specify an id")
 
     if (
@@ -47,7 +46,7 @@ export class RegisterTicketCategory extends Command {
             categoryId: categoryId.value as string,
           },
         })
-        await interaction.editReply(`Added category <#${categoryId}> to the database`)
+        await interaction.editReply(`Added category <#${categoryId.value}> to the database`)
       } catch (e) {
         console.log(e)
       }
