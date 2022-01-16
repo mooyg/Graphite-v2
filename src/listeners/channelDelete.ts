@@ -1,6 +1,5 @@
 import { Events, Listener, PieceContext } from '@sapphire/framework'
-import { GuildChannel } from 'discord.js'
-import { runInThisContext } from 'vm'
+import { GuildChannel, TextChannel } from 'discord.js'
 
 export class ChannelDeleteListener extends Listener {
   public constructor(context: PieceContext) {
@@ -17,6 +16,12 @@ export class ChannelDeleteListener extends Listener {
         ticketId: channel.id,
       })
 
+      const adminLogs = this.container.client.channels.cache.get(
+        '673537413121048597'
+      ) as TextChannel
+      adminLogs.send(
+        `Ticket <#${channel.id}> (${channel.id}) was deleted from <#${channel.parent}>`
+      )
       this.container.logger.info('DELETED A TICKET', this.container.balancer.tickets)
     }
   }
